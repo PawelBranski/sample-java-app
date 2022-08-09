@@ -7,8 +7,9 @@ pipeline {
             }
         }
         stage('SonarQube analysis') {
-            withSonarQubeEnv(installationName: 'sq1') {
-              sh 'ls -al'
+            steps {
+                withSonarQubeEnv(installationName: 'sq1') {
+                sh 'ls -al'
             }
        }
     }

@@ -4,7 +4,14 @@ pipeline {
         stage('build') {
             steps {
                 sh 'pwd'
+                def scannerHome = tool 'sq1';
             }
         }
+
+        stage('SonarQube analysis') {
+            withSonarQubeEnv(installationName: 'sq1') { // You can override the credential to be used
+              sh './mvnw clean sonar:sonar'
+         }
+       }
     }
 }

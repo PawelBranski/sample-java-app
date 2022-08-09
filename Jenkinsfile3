@@ -4,14 +4,12 @@ pipeline {
         stage('build') {
             steps {
                 sh 'pwd'
-                
             }
         }
-
         stage('SonarQube analysis') {
             withSonarQubeEnv(installationName: 'sq1') {
               sh 'ls -al'
-         }
+            }
        }
     }
 }

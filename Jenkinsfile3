@@ -9,7 +9,7 @@ pipeline {
           sh "whoami"
         }
         withSonarQubeEnv('sq1') {
-          sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=test -Dsonar.sources=. "
+          sh "${scannerHome}/bin/sonar-scanner -Dsonar.java.binaries=**/* -Dsonar.projectKey=test -Dsonar.sources=. "
         }
       }
     }

@@ -1,17 +1,16 @@
 pipeline {
-    agent { docker { image 'maven:3.8.4-openjdk-11-slim' } }
-    stages {
-        stage('build') {
-            steps {
-                sh 'pwd'
-            }
+  agent any
+  stages {
+    stage('SonarQube analysis') {
+      steps {
+        script {
+          // requires SonarQube Scanner 2.8+
+          scannerHome = tool 'sq1'
         }
-        stage('SonarQube analysis') {
-            steps {
-                withSonarQubeEnv(installationName: 'sq1') 
-                sh 'ls -al'
-            }
-       }
+        withSonarQubeEnv('sq1') {
+          sh "${scannerHome}/bin/sonar-scanner"
+        }
+      }
     }
+  }
 }
-

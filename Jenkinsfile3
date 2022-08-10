@@ -2,13 +2,12 @@ pipeline {
   agent any
   stages {
     stage('SonarQube analysis') {
+      tools {
+        sonarQube 'sq1'
+      }
       steps {
-        script {
-          // requires SonarQube Scanner 2.8+
-          scannerHome = tool 'sq1'
-        }
         withSonarQubeEnv('sq1') {
-          sh "${scannerHome}/bin/sonar-scanner"
+          sh 'sonar-scanner'
         }
       }
     }

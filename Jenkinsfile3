@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('SonarQube analysis') {
       tools {
-        sonarQube 'sq1'
+        SonarQube 'sq1'
       }
       steps {
         withSonarQubeEnv('sq1') {

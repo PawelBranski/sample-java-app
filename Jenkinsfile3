@@ -5,6 +5,8 @@ pipeline {
       steps {
         script {
           scannerHome = tool 'sq1'
+          sh "pwd"
+          sh "whoami"
         }
         withSonarQubeEnv('sq1') {
           sh "${scannerHome}/bin/sonar-scanner"

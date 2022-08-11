@@ -1,27 +1,30 @@
 pipeline {
-  agent any
-  stages {
-    stage('SonarQube analysis') {
-      steps {
-        script {
-          scannerHome = tool 'sq1'
-          sh "pwd"
-          sh "whoami"
-        }
-        withSonarQubeEnv('sq1') {
-          sh "${scannerHome}/bin/sonar-scanner -Dsonar.java.binaries=**/* -Dsonar.projectKey=test -Dsonar.sources=. "
-        }
+    agent none
+    stages {
+        stage('SonarQube analysis') {
+            agent {
+                docker { image 'node:16.13.1-alpine' }
+            }
+            steps {
+                sh 'mvn --version'
+            }
+            steps {
+             script {
+                scannerHome = tool 'sq1'
+                sh "pwd"
+                sh "whoami"
+                }
+            withSonarQubeEnv('sq1') {
+                sh "${scannerHome}/bin/sonar-scanner -Dsonar.java.binaries=**/* -Dsonar.projectKey=test -Dsonar.sources=. "
+            }   
       }
-    }
-    
-  }
-
-
-  agent { docker { image 'maven:3.8.4-openjdk-11-slim' } }
-  stages {
-    stage('maven build') {
-      steps {
-          sh 'mvn --version'
+        }
+        stage('maven build') {
+            agent {
+                docker { image 'maven:3.8.4-openjdk-11-slim' }
+            }
+            steps {
+                sh 'mvn --version'
             }
         }
     }
